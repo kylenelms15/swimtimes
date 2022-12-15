@@ -8,6 +8,8 @@ import com.apex.swimtime.repository.SwimTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SwimTimeService {
 
@@ -17,6 +19,14 @@ public class SwimTimeService {
     @Autowired
     private SplitRepository splitRepository;
 
+
+    public List<SwimTimeRO> addTimes(List<SwimTimeRO> times) {
+        for(SwimTimeRO time :times) {
+            addSwimTime(time);
+        }
+
+        return times;
+    }
 
     public SwimTime addSwimTime(SwimTimeRO time){
         //TODO: Better Data validation
@@ -36,6 +46,7 @@ public class SwimTimeService {
 
         if(time.getStroke() != null) {
             entryTime.setStroke(time.getStroke());
+
         }
 
         if(time.getTime() != null && time.getTime() >= 0) {
@@ -51,8 +62,6 @@ public class SwimTimeService {
             entrySplits.setTimeID(entryTime.getTimeID());
             splitRepository.save(entrySplits);
         }
-
-
 
         return entryTime;
     }

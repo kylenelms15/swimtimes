@@ -46,4 +46,10 @@ public class SwimTimesController {
 
         return ResponseEntity.ok(swimTimeService.addSwimTime(time));
     }
+
+    @PostMapping(path="/addSwimTimes")
+    public @ResponseBody ResponseEntity<List<SwimTimeRO>> addMultipleTimes(@RequestBody List<SwimTimeRO> times) {
+        //TODO: Change the return object
+        return ResponseEntity.ok(swimTimeService.addTimes(times));
+    }
 }
