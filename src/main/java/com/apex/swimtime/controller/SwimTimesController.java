@@ -1,6 +1,7 @@
 package com.apex.swimtime.controller;
 
 import com.apex.swimtime.constants.SwimTime;
+import com.apex.swimtime.constants.SwimTimeRO;
 import com.apex.swimtime.constants.Swimmer;
 import com.apex.swimtime.repository.SwimmerRepository;
 import com.apex.swimtime.service.SwimTimeService;
@@ -41,7 +42,7 @@ public class SwimTimesController {
     }
 
     @PostMapping(path="/addSwimTime")
-    public @ResponseBody ResponseEntity<SwimTime> addSwimTime(@RequestBody SwimTime time) {
+    public @ResponseBody ResponseEntity<SwimTime> addSwimTime(@RequestBody SwimTimeRO time) {
 
         return ResponseEntity.ok(swimTimeService.addSwimTime(time));
     }

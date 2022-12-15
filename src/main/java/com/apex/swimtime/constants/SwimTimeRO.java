@@ -1,25 +1,18 @@
 package com.apex.swimtime.constants;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name ="swimtime")
-public class SwimTime {
+public class SwimTimeRO {
     private Integer swimmerID;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer timeID;
 
     private LocalDate date;
@@ -29,4 +22,6 @@ public class SwimTime {
     private StrokeEnum stroke;
 
     private Double time;
+
+    private Split splits;
 }
