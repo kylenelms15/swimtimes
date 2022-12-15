@@ -1,10 +1,12 @@
 package com.apex.swimtime.service;
 
+import com.apex.swimtime.constants.RelationshipID;
 import com.apex.swimtime.constants.Split;
 import com.apex.swimtime.constants.SwimTime;
 import com.apex.swimtime.constants.SwimTimeRO;
 import com.apex.swimtime.repository.SplitRepository;
 import com.apex.swimtime.repository.SwimTimeRepository;
+import com.apex.swimtime.repository.SwimmerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,9 @@ public class SwimTimeService {
 
     @Autowired
     private SplitRepository splitRepository;
+
+    @Autowired
+    private SwimmerRepository swimmerRepository;
 
 
     public List<SwimTimeRO> addTimes(List<SwimTimeRO> times) {
@@ -64,5 +69,34 @@ public class SwimTimeService {
         }
 
         return entryTime;
+    }
+
+    public Integer deleteTime(Integer timeID) {
+        if(splitRepository.findById(timeID).isPresent()) {
+            splitRepository.deleteById(timeID);
+        }
+
+        swimTimeRepository.deleteById(timeID);
+
+        return timeID;
+    }
+
+    public Integer deleteTimes(Integer swimmerID) {
+        //TODO: Data validation for deletes
+        List<Integer> timeIDs = swimTimeRepository.findBySwimmerID(swimmerID);
+
+        for(Integer timeID : timeIDs) {
+            deleteTime(timeID);
+        }
+        return swimmerID;
+    }
+
+    public Integer deleteSwimmer(Integer swimmerID) {
+        if(swimmerRepository.findById(swimmerID).isPresent()) {
+            deleteTimes(swimmerID);
+            swimmerRepository.deleteById(swimmerID);
+        }
+
+        return swimmerID;
     }
 }

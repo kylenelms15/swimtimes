@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 @RequestMapping(path="/demo")
 public class SwimTimesController {
+    //TODO: Change project path
 
     @Autowired
     private SwimmerRepository swimmerRepository;
@@ -26,10 +27,9 @@ public class SwimTimesController {
     @Autowired
     private SwimTimeService swimTimeService;
 
-    private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
-    @GetMapping(path="/all")
+    @GetMapping(path="/allSwimmers")
     public @ResponseBody ResponseEntity<List<Swimmer>> getAllSwimmers() {
 
         return ResponseEntity.ok(swimmerRepository.findAll());
@@ -51,5 +51,23 @@ public class SwimTimesController {
     public @ResponseBody ResponseEntity<List<SwimTimeRO>> addMultipleTimes(@RequestBody List<SwimTimeRO> times) {
         //TODO: Change the return object
         return ResponseEntity.ok(swimTimeService.addTimes(times));
+    }
+
+    @DeleteMapping(path="/deleteTime/{timeID}")
+    public @ResponseBody ResponseEntity<Integer> deleteTime(@PathVariable Integer timeID) {
+
+        return ResponseEntity.ok(swimTimeService.deleteTime(timeID));
+    }
+
+    @DeleteMapping(path="/deleteTimes/{swimmerID}")
+    public @ResponseBody ResponseEntity<Integer> deleteTimes(@PathVariable Integer swimmerID) {
+
+        return ResponseEntity.ok(swimTimeService.deleteTimes(swimmerID));
+    }
+
+    @DeleteMapping(path="/deleteSwimmer/{swimmerID}")
+    public @ResponseBody ResponseEntity<Integer> deleteSwimmer(@PathVariable Integer swimmerID) {
+
+        return ResponseEntity.ok(swimTimeService.deleteSwimmer(swimmerID));
     }
 }
