@@ -1,9 +1,6 @@
 package com.apex.swimtime.controller;
 
-import com.apex.swimtime.constants.StrokeEnum;
-import com.apex.swimtime.constants.SwimTime;
-import com.apex.swimtime.constants.SwimTimeRO;
-import com.apex.swimtime.constants.Swimmer;
+import com.apex.swimtime.constants.*;
 import com.apex.swimtime.repository.SwimmerRepository;
 import com.apex.swimtime.service.SwimTimeService;
 import com.apex.swimtime.service.SwimmerService;
@@ -20,15 +17,12 @@ public class SwimTimesController {
     //TODO: Change project path
 
     @Autowired
-    private SwimmerRepository swimmerRepository;
-
-    @Autowired
     private SwimmerService swimmerService;
 
     @Autowired
     private SwimTimeService swimTimeService;
 
-    private final AtomicLong counter = new AtomicLong();
+    //TODO: change some of the pathVariables to
 
     @GetMapping(path="/allSwimmers")
     public @ResponseBody ResponseEntity<List<Swimmer>> getAllSwimmers() {
@@ -52,6 +46,18 @@ public class SwimTimesController {
     public @ResponseBody ResponseEntity<List<SwimTimeRO>> getTimesByEvent(@PathVariable Integer distance, @PathVariable StrokeEnum stroke) {
 
         return ResponseEntity.ok(swimTimeService.getTimesByEvent(stroke, distance));
+    }
+
+    @GetMapping(path="/time/{timeID}")
+    public @ResponseBody ResponseEntity<SwimTimeRO> getTimeByTimeID(@PathVariable Integer timeID) {
+
+        return ResponseEntity.ok(swimTimeService.getTime(timeID));
+    }
+
+    @GetMapping(path="/split/{timeID}")
+    public @ResponseBody ResponseEntity<Split> getSplitsByTimeID(@PathVariable Integer timeID) {
+
+        return ResponseEntity.ok(swimTimeService.getSplitsByTimeID(timeID));
     }
 
     @PostMapping(path="/addSwimmer")

@@ -8,7 +8,6 @@ import com.apex.swimtime.repository.SplitRepository;
 import com.apex.swimtime.repository.SwimTimeRepository;
 import com.apex.swimtime.repository.SwimmerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Indexed;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,26 +41,41 @@ public class SwimTimeService {
         List<SwimTimeRO> times = new ArrayList<>();
 
         for(Integer timeID : timeIDs) {
-            SwimTimeRO time = new SwimTimeRO();
-            SwimTime swimTime = swimTimeRepository.findById(timeID).get();
-            time.setSwimmerID(swimTime.getSwimmerID());
-            time.setDate(swimTime.getDate());
-            time.setTime(swimTime.getTime());
-            time.setStroke(swimTime.getStroke());
-            time.setDistance(swimTime.getDistance());
-            time.setTimeID(swimTime.getTimeID());
-            time.setSplits(splitRepository.findById(swimTime.getTimeID()).get());
-            times.add(time);
+            times.add(getTime(timeID));
         }
 
         return times;
     }
 
-    //TODO:getSplitsByTimeID
+    public SwimTimeRO getTime(Integer timeID) {
+        SwimTimeRO time = new SwimTimeRO();
+
+        SwimTime swimTime = swimTimeRepository.findById(timeID).get();
+        time.setSwimmerID(swimTime.getSwimmerID());
+        time.setDate(swimTime.getDate());
+        time.setTime(swimTime.getTime());
+        time.setStroke(swimTime.getStroke());
+        time.setDistance(swimTime.getDistance());
+        time.setTimeID(swimTime.getTimeID());
+        time.setSplits(getSplitsByTimeID(swimTime.getTimeID()));
+
+        return time;
+    }
+
+    public Split getSplitsByTimeID(Integer timeID) {
+        return splitRepository.findById(timeID).get();
+    }
+
     //TODO:getTimesByStroke
     //TODO:getTimesByDistance
     //TODO:getTimesByDate
     //TODO:getTimesByDateRange
+
+    //Unsure if these enpoints would be better served with filters on the UI Side
+    //How much data and how many API calls we want to make is worth a discussion
+    //TODO:getTimesBySwimmerIDAndEvent
+    //TODO:getTimesBySwimmerIDandDate
+    //TODO:getTimesBySwimmerIDandDateRange
 
 
     public List<SwimTimeRO> addTimes(List<SwimTimeRO> times) {
