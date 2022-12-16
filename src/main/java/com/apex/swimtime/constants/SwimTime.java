@@ -23,9 +23,11 @@ public class SwimTime {
 
     private LocalDate date;
 
-    private int distance;
+    private Integer distance;
 
     private StrokeEnum stroke;
 
     private Double time;
+
+    //TODO: private CourseEnum course
 }

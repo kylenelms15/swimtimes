@@ -1,5 +1,6 @@
 package com.apex.swimtime.controller;
 
+import com.apex.swimtime.constants.StrokeEnum;
 import com.apex.swimtime.constants.SwimTime;
 import com.apex.swimtime.constants.SwimTimeRO;
 import com.apex.swimtime.constants.Swimmer;
@@ -32,7 +33,25 @@ public class SwimTimesController {
     @GetMapping(path="/allSwimmers")
     public @ResponseBody ResponseEntity<List<Swimmer>> getAllSwimmers() {
 
-        return ResponseEntity.ok(swimmerRepository.findAll());
+        return ResponseEntity.ok(swimmerService.getAllSwimmers());
+    }
+
+    @GetMapping(path="/swimmer/{swimmerID}")
+    public @ResponseBody ResponseEntity<Swimmer> getSwimmer(@PathVariable Integer swimmerID) {
+
+        return ResponseEntity.ok(swimmerService.getSwimmer(swimmerID));
+    }
+
+    @GetMapping(path="/times/{swimmerID}")
+    public @ResponseBody ResponseEntity<List<SwimTime>> getTimesBySwimmer(@PathVariable Integer swimmerID) {
+
+        return ResponseEntity.ok(swimTimeService.getTimesBySwimmerID(swimmerID));
+    }
+
+    @GetMapping(path="/times/{distance}/{stroke}")
+    public @ResponseBody ResponseEntity<List<SwimTime>> getTimesByEvent(@PathVariable Integer distance, @PathVariable StrokeEnum stroke) {
+
+        return ResponseEntity.ok(swimTimeService.getTimesByEvent(stroke, distance));
     }
 
     @PostMapping(path="/addSwimmer")

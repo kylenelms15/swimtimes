@@ -1,15 +1,17 @@
 package com.apex.swimtime.service;
 
-import com.apex.swimtime.constants.RelationshipID;
 import com.apex.swimtime.constants.Split;
+import com.apex.swimtime.constants.StrokeEnum;
 import com.apex.swimtime.constants.SwimTime;
 import com.apex.swimtime.constants.SwimTimeRO;
 import com.apex.swimtime.repository.SplitRepository;
 import com.apex.swimtime.repository.SwimTimeRepository;
 import com.apex.swimtime.repository.SwimmerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Indexed;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +25,34 @@ public class SwimTimeService {
 
     @Autowired
     private SwimmerRepository swimmerRepository;
+
+    //TODO: change to return SwimTimeRO or another object that only show the time data
+    public List<SwimTime> getTimesByEvent(StrokeEnum stroke, Integer distance) {
+        List<Integer> timeIDs = swimTimeRepository.findByEvent(stroke.ordinal(), distance);
+
+        return getTimes(timeIDs);
+    }
+
+    public List<SwimTime> getTimesBySwimmerID(Integer swimmerID) {
+        List<Integer> timeIDs = swimTimeRepository.findBySwimmerID(swimmerID);
+
+        return getTimes(timeIDs);
+    }
+
+    private List<SwimTime> getTimes(List<Integer> timeIDs) {
+        List<SwimTime> times = new ArrayList<>();
+        for(Integer timeID : timeIDs) {
+            times.add(swimTimeRepository.findById(timeID).get());
+        }
+
+        return times;
+    }
+
+    //TODO:getSplitsByTimeID
+    //TODO:getTimesByStroke
+    //TODO:getTimesByDistance
+    //TODO:getTimesByDate
+    //TODO:getTimesByDateRange
 
 
     public List<SwimTimeRO> addTimes(List<SwimTimeRO> times) {
