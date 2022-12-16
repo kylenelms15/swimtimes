@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "9ae3c3cd-d7f7-4822-9c2c-d0f450be35b0",
+		"name": "SwimTimes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "allSwimmers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/demo/allSwimmers",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"allSwimmers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getSwimmer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/demo/swimmer/5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"swimmer",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addSwimmer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\":\"test\",\r\n    \"lastName\":\"swimmer\",\r\n    \"dateOfBirth\":\"2000-01-01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/demo/addSwimmer",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"addSwimmer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addTime",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"swimmerID\":\"2\",\r\n    \"date\":\"2022-12-10\",\r\n    \"distance\":100,\r\n    \"stroke\":\"FREE\",\r\n    \"time\":\"60000\",\r\n    \"splits\": {\r\n        \"split1\":\"30000\",\r\n        \"split2\":\"30000\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/demo/addSwimTime",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"addSwimTime"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addSwimTimes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n        {\r\n            \"swimmerID\":\"4\",\r\n            \"date\":\"2022-12-10\",\r\n            \"distance\":100,\r\n            \"stroke\":\"FREE\",\r\n            \"time\":\"60000\",\r\n            \"splits\": {\r\n                \"split1\":\"30000\",\r\n                \"split2\":\"30000\"\r\n            }\r\n        },\r\n        {\r\n            \"swimmerID\":\"4\",\r\n            \"date\":\"2022-12-10\",\r\n            \"distance\":100,\r\n            \"stroke\":\"BREAST\",\r\n            \"time\":\"60000\",\r\n            \"splits\": {\r\n                \"split1\":\"30000\",\r\n                \"split2\":\"30000\"\r\n            }\r\n        }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/demo/addSwimTimes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"addSwimTimes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteTime",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/demo/deleteTime/10",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"deleteTime",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteTimes",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/demo/deleteTimes/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"deleteTimes",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteSwimmer",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/demo/deleteSwimmer/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"deleteSwimmer",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTimesBySwimmerId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/demo/times/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"times",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "searchByEvent",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/demo/times/100/FREE",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"demo",
+						"times",
+						"100",
+						"FREE"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
