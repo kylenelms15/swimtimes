@@ -26,23 +26,32 @@ public class SwimTimeService {
     @Autowired
     private SwimmerRepository swimmerRepository;
 
-    //TODO: change to return SwimTimeRO or another object that only show the time data
-    public List<SwimTime> getTimesByEvent(StrokeEnum stroke, Integer distance) {
+    public List<SwimTimeRO> getTimesByEvent(StrokeEnum stroke, Integer distance) {
         List<Integer> timeIDs = swimTimeRepository.findByEvent(stroke.ordinal(), distance);
 
         return getTimes(timeIDs);
     }
 
-    public List<SwimTime> getTimesBySwimmerID(Integer swimmerID) {
+    public List<SwimTimeRO> getTimesBySwimmerID(Integer swimmerID) {
         List<Integer> timeIDs = swimTimeRepository.findBySwimmerID(swimmerID);
 
         return getTimes(timeIDs);
     }
 
-    private List<SwimTime> getTimes(List<Integer> timeIDs) {
-        List<SwimTime> times = new ArrayList<>();
+    private List<SwimTimeRO> getTimes(List<Integer> timeIDs) {
+        List<SwimTimeRO> times = new ArrayList<>();
+
         for(Integer timeID : timeIDs) {
-            times.add(swimTimeRepository.findById(timeID).get());
+            SwimTimeRO time = new SwimTimeRO();
+            SwimTime swimTime = swimTimeRepository.findById(timeID).get();
+            time.setSwimmerID(swimTime.getSwimmerID());
+            time.setDate(swimTime.getDate());
+            time.setTime(swimTime.getTime());
+            time.setStroke(swimTime.getStroke());
+            time.setDistance(swimTime.getDistance());
+            time.setTimeID(swimTime.getTimeID());
+            time.setSplits(splitRepository.findById(swimTime.getTimeID()).get());
+            times.add(time);
         }
 
         return times;

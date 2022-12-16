@@ -43,13 +43,13 @@ public class SwimTimesController {
     }
 
     @GetMapping(path="/times/{swimmerID}")
-    public @ResponseBody ResponseEntity<List<SwimTime>> getTimesBySwimmer(@PathVariable Integer swimmerID) {
+    public @ResponseBody ResponseEntity<List<SwimTimeRO>> getTimesBySwimmer(@PathVariable Integer swimmerID) {
 
         return ResponseEntity.ok(swimTimeService.getTimesBySwimmerID(swimmerID));
     }
 
     @GetMapping(path="/times/{distance}/{stroke}")
-    public @ResponseBody ResponseEntity<List<SwimTime>> getTimesByEvent(@PathVariable Integer distance, @PathVariable StrokeEnum stroke) {
+    public @ResponseBody ResponseEntity<List<SwimTimeRO>> getTimesByEvent(@PathVariable Integer distance, @PathVariable StrokeEnum stroke) {
 
         return ResponseEntity.ok(swimTimeService.getTimesByEvent(stroke, distance));
     }
