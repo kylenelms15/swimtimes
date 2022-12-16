@@ -5,6 +5,7 @@ import com.apex.swimtime.repository.SwimmerRepository;
 import com.apex.swimtime.service.SwimTimeService;
 import com.apex.swimtime.service.SwimmerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -92,7 +93,7 @@ public class SwimTimesController {
 
     @DeleteMapping(path="/deleteSwimmer/{swimmerID}")
     public @ResponseBody ResponseEntity<Integer> deleteSwimmer(@PathVariable Integer swimmerID) {
-
-        return ResponseEntity.ok(swimTimeService.deleteSwimmer(swimmerID));
+        Integer deletedID = swimTimeService.deleteSwimmer(swimmerID);
+        return new ResponseEntity<>(deletedID, HttpStatus.OK);
     }
 }
