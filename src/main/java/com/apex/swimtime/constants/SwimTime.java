@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -24,9 +23,11 @@ public class SwimTime {
 
     private LocalDate date;
 
-    private int distance;
+    private Integer distance;
 
     private StrokeEnum stroke;
 
     private Double time;
+
+    //TODO: private CourseEnum course
 }

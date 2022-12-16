@@ -17,7 +17,7 @@ public class SwimTimeRO {
 
     private LocalDate date;
 
-    private int distance;
+    private Integer distance;
 
     private StrokeEnum stroke;
 
