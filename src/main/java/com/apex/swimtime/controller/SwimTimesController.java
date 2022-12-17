@@ -1,16 +1,16 @@
 package com.apex.swimtime.controller;
 
 import com.apex.swimtime.constants.*;
-import com.apex.swimtime.repository.SwimmerRepository;
 import com.apex.swimtime.service.SwimTimeService;
 import com.apex.swimtime.service.SwimmerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping(path="/demo")
@@ -22,8 +22,6 @@ public class SwimTimesController {
 
     @Autowired
     private SwimTimeService swimTimeService;
-
-    //TODO: change some of the pathVariables to
 
     @GetMapping(path="/allSwimmers")
     public @ResponseBody ResponseEntity<List<Swimmer>> getAllSwimmers() {
@@ -37,28 +35,14 @@ public class SwimTimesController {
         return ResponseEntity.ok(swimmerService.getSwimmer(swimmerID));
     }
 
-    @GetMapping(path="/times/{swimmerID}")
-    public @ResponseBody ResponseEntity<List<SwimTimeRO>> getTimesBySwimmer(@PathVariable Integer swimmerID) {
+    @GetMapping(path="/times")
+    public @ResponseBody ResponseEntity<List<SwimTimeResponse>> getTimesByObject(@RequestParam(required = false) Integer swimmerID,
+                                                                                 @RequestParam(required = false) StrokeEnum stroke,
+                                                                                 @RequestParam(required = false) Integer distance,
+                                                                                 @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                                                                                 @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
 
-        return ResponseEntity.ok(swimTimeService.getTimesBySwimmerID(swimmerID));
-    }
-
-    @GetMapping(path="/times/{distance}/{stroke}")
-    public @ResponseBody ResponseEntity<List<SwimTimeRO>> getTimesByEvent(@PathVariable Integer distance, @PathVariable StrokeEnum stroke) {
-
-        return ResponseEntity.ok(swimTimeService.getTimesByEvent(stroke, distance));
-    }
-
-    @GetMapping(path="/time/{timeID}")
-    public @ResponseBody ResponseEntity<SwimTimeRO> getTimeByTimeID(@PathVariable Integer timeID) {
-
-        return ResponseEntity.ok(swimTimeService.getTime(timeID));
-    }
-
-    @GetMapping(path="/split/{timeID}")
-    public @ResponseBody ResponseEntity<Split> getSplitsByTimeID(@PathVariable Integer timeID) {
-
-        return ResponseEntity.ok(swimTimeService.getSplitsByTimeID(timeID));
+        return ResponseEntity.ok(swimTimeService.getTimesByObject(swimmerID, stroke, distance, startDate, endDate));
     }
 
     @PostMapping(path="/addSwimmer")
@@ -68,26 +52,28 @@ public class SwimTimesController {
     }
 
     @PostMapping(path="/addSwimTime")
-    public @ResponseBody ResponseEntity<SwimTime> addSwimTime(@RequestBody SwimTimeRO time) {
+    public @ResponseBody ResponseEntity<SwimTime> addSwimTime(@RequestBody SwimTimeRequest time) {
 
         return ResponseEntity.ok(swimTimeService.addSwimTime(time));
     }
 
     @PostMapping(path="/addSwimTimes")
-    public @ResponseBody ResponseEntity<List<SwimTimeRO>> addMultipleTimes(@RequestBody List<SwimTimeRO> times) {
+    public @ResponseBody ResponseEntity<List<SwimTimeRequest>> addMultipleTimes(@RequestBody List<SwimTimeRequest> times) {
         //TODO: Change the return object
         return ResponseEntity.ok(swimTimeService.addTimes(times));
     }
 
     @DeleteMapping(path="/deleteTime/{timeID}")
     public @ResponseBody ResponseEntity<Integer> deleteTime(@PathVariable Integer timeID) {
-
+        //TODO: change to RequestParam
         return ResponseEntity.ok(swimTimeService.deleteTime(timeID));
     }
 
+    //TODO:endpoint to delete multiple swimmers
+
     @DeleteMapping(path="/deleteTimes/{swimmerID}")
     public @ResponseBody ResponseEntity<Integer> deleteTimes(@PathVariable Integer swimmerID) {
-
+        //TODO: change to RequestParam
         return ResponseEntity.ok(swimTimeService.deleteTimes(swimmerID));
     }
 

@@ -9,9 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SwimTimeService {
@@ -25,20 +24,21 @@ public class SwimTimeService {
     @Autowired
     private SwimmerRepository swimmerRepository;
 
-    public List<SwimTimeRO> getTimesByEvent(StrokeEnum stroke, Integer distance) {
-        List<Integer> timeIDs = swimTimeRepository.findByEvent(stroke.ordinal(), distance);
+    //TODO: rename
+    public List<SwimTimeResponse> getTimesByObject(Integer swimmerID, StrokeEnum stroke, Integer distance, Date startDate, Date endDate) {
+        Integer strokeValue = null;
+
+        if(stroke != null) {
+            strokeValue = stroke.ordinal();
+        }
+
+        List<Integer> timeIDs = swimTimeRepository.findTime(swimmerID, strokeValue, distance);
 
         return getTimes(timeIDs);
     }
 
-    public List<SwimTimeRO> getTimesBySwimmerID(Integer swimmerID) {
-        List<Integer> timeIDs = swimTimeRepository.findBySwimmerID(swimmerID);
-
-        return getTimes(timeIDs);
-    }
-
-    private List<SwimTimeRO> getTimes(List<Integer> timeIDs) {
-        List<SwimTimeRO> times = new ArrayList<>();
+    private List<SwimTimeResponse> getTimes(List<Integer> timeIDs) {
+        List<SwimTimeResponse> times = new ArrayList<>();
 
         for(Integer timeID : timeIDs) {
             times.add(getTime(timeID));
@@ -47,8 +47,8 @@ public class SwimTimeService {
         return times;
     }
 
-    public SwimTimeRO getTime(Integer timeID) {
-        SwimTimeRO time = new SwimTimeRO();
+    private SwimTimeResponse getTime(Integer timeID) {
+        SwimTimeResponse time = new SwimTimeResponse();
 
         SwimTime swimTime = swimTimeRepository.findById(timeID).get();
         time.setSwimmerID(swimTime.getSwimmerID());
@@ -57,36 +57,61 @@ public class SwimTimeService {
         time.setStroke(swimTime.getStroke());
         time.setDistance(swimTime.getDistance());
         time.setTimeID(swimTime.getTimeID());
-        time.setSplits(getSplitsByTimeID(swimTime.getTimeID()));
+        time.setSplits(getSplitsAsList(swimTime.getTimeID()));
 
         return time;
     }
 
-    public Split getSplitsByTimeID(Integer timeID) {
-        return splitRepository.findById(timeID).get();
+    private List<Double> getSplitsAsList(Integer timeID) {
+        List<Double> splits = new ArrayList<>();
+        Split split = splitRepository.findById(timeID).get();
+
+        splits.add(split.getSplit1());
+        splits.add(split.getSplit2());
+        splits.add(split.getSplit3());
+        splits.add(split.getSplit4());
+        splits.add(split.getSplit5());
+        splits.add(split.getSplit6());
+        splits.add(split.getSplit7());
+        splits.add(split.getSplit8());
+        splits.add(split.getSplit9());
+        splits.add(split.getSplit10());
+        splits.add(split.getSplit11());
+        splits.add(split.getSplit12());
+        splits.add(split.getSplit13());
+        splits.add(split.getSplit14());
+        splits.add(split.getSplit15());
+        splits.add(split.getSplit16());
+        splits.add(split.getSplit17());
+        splits.add(split.getSplit18());
+        splits.add(split.getSplit19());
+        splits.add(split.getSplit20());
+        splits.add(split.getSplit21());
+        splits.add(split.getSplit22());
+        splits.add(split.getSplit23());
+        splits.add(split.getSplit24());
+        splits.add(split.getSplit25());
+        splits.add(split.getSplit26());
+        splits.add(split.getSplit27());
+        splits.add(split.getSplit28());
+        splits.add(split.getSplit29());
+        splits.add(split.getSplit30());
+        splits.add(split.getSplit31());
+        splits.add(split.getSplit32());
+        splits.add(split.getSplit33());
+
+        return splits.stream().filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    //TODO:getTimesByStroke
-    //TODO:getTimesByDistance
-    //TODO:getTimesByDate
-    //TODO:getTimesByDateRange
-
-    //Unsure if these enpoints would be better served with filters on the UI Side
-    //How much data and how many API calls we want to make is worth a discussion
-    //TODO:getTimesBySwimmerIDAndEvent
-    //TODO:getTimesBySwimmerIDandDate
-    //TODO:getTimesBySwimmerIDandDateRange
-
-
-    public List<SwimTimeRO> addTimes(List<SwimTimeRO> times) {
-        for(SwimTimeRO time :times) {
+    public List<SwimTimeRequest> addTimes(List<SwimTimeRequest> times) {
+        for(SwimTimeRequest time :times) {
             addSwimTime(time);
         }
 
         return times;
     }
 
-    public SwimTime addSwimTime(SwimTimeRO time){
+    public SwimTime addSwimTime(SwimTimeRequest time){
         //TODO: Better Data validation
         SwimTime entryTime = new SwimTime();
 
