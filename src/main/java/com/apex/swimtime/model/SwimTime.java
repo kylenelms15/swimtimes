@@ -1,5 +1,6 @@
-package com.apex.swimtime.constants;
+package com.apex.swimtime.model;
 
+import com.apex.swimtime.constants.StrokeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,10 @@
 package com.apex.swimtime.service;
 
 import com.apex.swimtime.constants.*;
+import com.apex.swimtime.model.Split;
+import com.apex.swimtime.model.SwimTime;
+import com.apex.swimtime.model.SwimTimeRequest;
+import com.apex.swimtime.model.SwimTimeResponse;
 import com.apex.swimtime.repository.SplitRepository;
 import com.apex.swimtime.repository.SwimTimeRepository;
 import com.apex.swimtime.repository.SwimmerRepository;
@@ -63,44 +67,16 @@ public class SwimTimeService {
     }
 
     private List<Double> getSplitsAsList(Integer timeID) {
-        List<Double> splits = new ArrayList<>();
-        Split split = splitRepository.findById(timeID).get();
 
-        splits.add(split.getSplit1());
-        splits.add(split.getSplit2());
-        splits.add(split.getSplit3());
-        splits.add(split.getSplit4());
-        splits.add(split.getSplit5());
-        splits.add(split.getSplit6());
-        splits.add(split.getSplit7());
-        splits.add(split.getSplit8());
-        splits.add(split.getSplit9());
-        splits.add(split.getSplit10());
-        splits.add(split.getSplit11());
-        splits.add(split.getSplit12());
-        splits.add(split.getSplit13());
-        splits.add(split.getSplit14());
-        splits.add(split.getSplit15());
-        splits.add(split.getSplit16());
-        splits.add(split.getSplit17());
-        splits.add(split.getSplit18());
-        splits.add(split.getSplit19());
-        splits.add(split.getSplit20());
-        splits.add(split.getSplit21());
-        splits.add(split.getSplit22());
-        splits.add(split.getSplit23());
-        splits.add(split.getSplit24());
-        splits.add(split.getSplit25());
-        splits.add(split.getSplit26());
-        splits.add(split.getSplit27());
-        splits.add(split.getSplit28());
-        splits.add(split.getSplit29());
-        splits.add(split.getSplit30());
-        splits.add(split.getSplit31());
-        splits.add(split.getSplit32());
-        splits.add(split.getSplit33());
+        if(splitRepository.findById(timeID).isPresent()) {
+            Split splitObject = splitRepository.findById(timeID).get();
 
-        return splits.stream().filter(Objects::nonNull).collect(Collectors.toList());
+            List<Double> splits = Arrays.asList(splitObject.getSplits());
+
+            return splits.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        }
+
+        return null;
     }
 
     public List<SwimTimeRequest> addTimes(List<SwimTimeRequest> times) {
@@ -111,42 +87,23 @@ public class SwimTimeService {
         return times;
     }
 
-    public SwimTime addSwimTime(SwimTimeRequest time){
-        //TODO: Better Data validation
+    //TODO: Use Mapstruct
+    public void addSwimTime(SwimTimeRequest time){
         SwimTime entryTime = new SwimTime();
 
-        if(time.getSwimmerID()!= null && time.getSwimmerID() >= 0) {
-            entryTime.setSwimmerID(time.getSwimmerID());
-        }
-
-        if(time.getDate()!= null ) {
-            entryTime.setDate(time.getDate());
-        }
-
-        if(time.getDistance() > 0) {
-            entryTime.setDistance(time.getDistance());
-        }
-
-        if(time.getStroke() != null) {
-            entryTime.setStroke(time.getStroke());
-
-        }
-
-        if(time.getTime() != null && time.getTime() >= 0) {
-            entryTime.setTime(time.getTime());
-        }
-
+        entryTime.setSwimmerID(time.getSwimmerID());
+        entryTime.setDate(time.getDate());
+        entryTime.setDistance(time.getDistance());
+        entryTime.setStroke(time.getStroke());
+        entryTime.setTime(time.getTime());
         swimTimeRepository.save(entryTime);
 
-        if(time.getSplits() != null &&
-                (time.getSplits().getSplit1() != null && time.getSplits().getSplit1() > 0))
-        {
-            Split entrySplits = time.getSplits();
+        Split entrySplits = time.getSplits();
+        if(entrySplits != null && entrySplits.getSplits().length>0) {
             entrySplits.setTimeID(entryTime.getTimeID());
             splitRepository.save(entrySplits);
         }
-
-        return entryTime;
+        System.out.println("test");
     }
 
     public Integer deleteTime(Integer timeID) {

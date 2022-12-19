@@ -1,4 +1,4 @@
-package com.apex.swimtime.constants;
+package com.apex.swimtime.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

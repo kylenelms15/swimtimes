@@ -1,5 +1,6 @@
-package com.apex.swimtime.constants;
+package com.apex.swimtime.model;
 
+import com.apex.swimtime.constants.StrokeEnum;
 import lombok.Getter;
 import lombok.Setter;
 

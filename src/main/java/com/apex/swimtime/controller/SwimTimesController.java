@@ -1,6 +1,10 @@
 package com.apex.swimtime.controller;
 
 import com.apex.swimtime.constants.*;
+import com.apex.swimtime.model.SwimTime;
+import com.apex.swimtime.model.SwimTimeRequest;
+import com.apex.swimtime.model.SwimTimeResponse;
+import com.apex.swimtime.model.Swimmer;
 import com.apex.swimtime.service.SwimTimeService;
 import com.apex.swimtime.service.SwimmerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,21 +50,21 @@ public class SwimTimesController {
     }
 
     @PostMapping(path="/addSwimmer")
-    public @ResponseBody ResponseEntity<Swimmer> addSwimmer(@RequestBody Swimmer swimmer) {
-
-        return ResponseEntity.ok(swimmerService.addSwimmer(swimmer));
+    public @ResponseBody ResponseEntity addSwimmer(@RequestBody Swimmer swimmer) {
+        swimmerService.addSwimmer(swimmer);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path="/addSwimTime")
-    public @ResponseBody ResponseEntity<SwimTime> addSwimTime(@RequestBody SwimTimeRequest time) {
-
-        return ResponseEntity.ok(swimTimeService.addSwimTime(time));
+    public @ResponseBody ResponseEntity addSwimTime(@RequestBody SwimTimeRequest time) {
+        swimTimeService.addSwimTime(time);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path="/addSwimTimes")
-    public @ResponseBody ResponseEntity<List<SwimTimeRequest>> addMultipleTimes(@RequestBody List<SwimTimeRequest> times) {
-        //TODO: Change the return object
-        return ResponseEntity.ok(swimTimeService.addTimes(times));
+    public @ResponseBody ResponseEntity addMultipleTimes(@RequestBody List<SwimTimeRequest> times) {
+        swimTimeService.addTimes(times);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path="/deleteTime/{timeID}")

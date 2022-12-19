@@ -1,7 +1,6 @@
 package com.apex.swimtime.repository;
 
-import com.apex.swimtime.constants.StrokeEnum;
-import com.apex.swimtime.constants.SwimTime;
+import com.apex.swimtime.model.SwimTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
