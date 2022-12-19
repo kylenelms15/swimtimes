@@ -29,6 +29,7 @@ public class SwimTimeService {
     private SwimmerRepository swimmerRepository;
 
     //TODO: rename
+    //TODO: could use some optimization
     public List<SwimTimeResponse> getTimesByObject(Integer swimmerID, StrokeEnum stroke, Integer distance, Date startDate, Date endDate) {
         Integer strokeValue = null;
 
@@ -36,7 +37,15 @@ public class SwimTimeService {
             strokeValue = stroke.ordinal();
         }
 
-        List<Integer> timeIDs = swimTimeRepository.findTime(swimmerID, strokeValue, distance);
+        List<Integer> timeIDs = swimTimeRepository.findTimes(swimmerID, strokeValue, distance);
+
+        if(startDate != null) {
+            if(endDate != null) {
+                return getTimes(swimTimeRepository.findTimesWithDateRange(timeIDs, startDate, endDate));
+            }
+
+            return getTimes(swimTimeRepository.findTimesWithDate(swimmerID, strokeValue, distance, startDate));
+        }
 
         return getTimes(timeIDs);
     }
@@ -140,6 +149,14 @@ public class SwimTimeService {
             return swimmerID;
         }
         return null;
+    }
+
+    public void deleteSwimmers(List<Integer> swimmerIDs) {
+        if(swimmerIDs.size()>0) {
+            for(Integer swimmer  : swimmerIDs) {
+                deleteSwimmer(swimmer);
+            }
+        }
     }
 
     private boolean validateSwimmer(Integer swimmerID) {

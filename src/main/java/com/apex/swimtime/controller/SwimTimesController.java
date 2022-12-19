@@ -73,8 +73,6 @@ public class SwimTimesController {
         return ResponseEntity.ok(swimTimeService.deleteTime(timeID));
     }
 
-    //TODO:endpoint to delete multiple swimmers
-
     @DeleteMapping(path="/deleteTimes/{swimmerID}")
     public @ResponseBody ResponseEntity<Integer> deleteTimes(@PathVariable Integer swimmerID) {
         //TODO: change to RequestParam
@@ -85,5 +83,11 @@ public class SwimTimesController {
     public @ResponseBody ResponseEntity<Integer> deleteSwimmer(@PathVariable Integer swimmerID) {
         Integer deletedID = swimTimeService.deleteSwimmer(swimmerID);
         return new ResponseEntity<>(deletedID, HttpStatus.OK);
+    }
+
+    @DeleteMapping(path="/deleteSwimmers")
+    public @ResponseBody ResponseEntity<Integer> deleteSwimmers(@RequestBody List<Integer> swimmerIDs) {
+        swimTimeService.deleteSwimmers(swimmerIDs);
+        return ResponseEntity.ok().build();
     }
 }
